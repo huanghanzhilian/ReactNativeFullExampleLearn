@@ -9,5 +9,4 @@ const App: () => Node = () => {
   );
 };
 
-
 export default App;

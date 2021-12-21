@@ -1,38 +1,51 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import {
   StyleSheet,
   View,
   Text
-} from 'react-native';
+} from 'react-native'
 
-import Content from './components/Content'
+import IndexModel from './models/Index'
+import ListModel from './models/List'
+
+const indexModel = new IndexModel()
+const listModel = new ListModel()
 
 class Txclass extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      contentText: 'Content component'
-    }
-  }
 
-  onViewClick() {
-    this.setState({
-      contentText: 'hello'
+  getCourseDatas () {
+    indexModel.getCourseDatas().then(res => {
+      console.log(res)
     })
   }
 
-  render() {
+  getCourses (field) {
+    listModel.getCourses(field).then(res => {
+      console.log(res)
+    })
+  }
 
-    const { contentText } = this.state
+  getCourseFields () {
+    listModel.getCourseFields().then(res => {
+      console.log(res)
+    })
+  }
+
+  componentDidMount () {
+    this.getCourseDatas()
+    this.getCourses('all')
+    this.getCourseFields()
+  }
+
+  render () {
 
     return (
-      <Content
-        contentText={contentText}
-        onViewClick={this.onViewClick.bind(this)}
-      />
+      <View>
+        <Text>Hello World</Text>
+      </View>
     );
   }
 }
 
-export default Txclass;
+export default Txclass
