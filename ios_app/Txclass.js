@@ -1,49 +1,102 @@
 import React, { Component } from 'react'
 
 import {
-  StyleSheet,
   View,
-  Text
+  Text,
+  Button,
+  TextInput
 } from 'react-native'
 
-import IndexModel from './models/Index'
-import ListModel from './models/List'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-const indexModel = new IndexModel()
-const listModel = new ListModel()
+const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
+
+function HomeScreen() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Feed" component={FeedScreen} />
+      <Tab.Screen name="Messages" component={MessagesScreen} />
+    </Tab.Navigator>
+  );
+}
+
+function ProfileScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Profile Screen</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Settings Screen</Text>
+    </View>
+  );
+}
+
+function FeedScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Feed Screen</Text>
+    </View>
+  );
+}
+
+function MessagesScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Messages Screen</Text>
+    </View>
+  );
+}
+
+function DetailsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+      <Button
+        title="Go to Details... again"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
+  );
+}
 
 class Txclass extends Component {
 
-  getCourseDatas () {
-    indexModel.getCourseDatas().then(res => {
-      console.log(res)
-    })
-  }
-
-  getCourses (field) {
-    listModel.getCourses(field).then(res => {
-      console.log(res)
-    })
-  }
-
-  getCourseFields () {
-    listModel.getCourseFields().then(res => {
-      console.log(res)
-    })
-  }
-
-  componentDidMount () {
-    this.getCourseDatas()
-    this.getCourses('all')
-    this.getCourseFields()
-  }
-
   render () {
-
     return (
-      <View>
-        <Text>Hello World</Text>
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        >
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={SettingsScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 }
