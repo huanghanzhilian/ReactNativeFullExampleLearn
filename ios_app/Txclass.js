@@ -17,6 +17,8 @@ import HomePage from './pages/Home'
 import ListPage from './pages/List'
 import DetailPage from './pages/Detail'
 
+import Logo from './components/Logo'
+
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
@@ -76,10 +78,17 @@ class Txclass extends Component {
           <Stack.Screen
             name="Tab"
             component={BottomTab}
+            options={{
+              headerTitle: props => <Logo { ...props } />
+            }}
           />
           <Stack.Screen
             name="DetailPage"
             component={DetailPage}
+            options={{
+              headerTitle: props => <Logo { ...props } />,
+              headerBackTitle: '返回'
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
