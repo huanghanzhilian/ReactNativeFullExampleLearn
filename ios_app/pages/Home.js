@@ -5,23 +5,61 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Text,
-  Button
+  Button,
+  ScrollView
 } from 'react-native';
 
+import IndexModel from '../models/Index'
+import IndexSwiper from '../components/IndexSwiper'
+
+
+const indexModel = new IndexModel()
+
 class HomePage extends Component {
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      swiperData: [],
+      fieldData: [],
+      courseData: [],
+      recomCourseData: []
+    }
+  }
+
+  getCourseDatas () {
+    indexModel.getCourseDatas().then(res => {
+      const data = res.result
+      this.setState({
+        swiperData: data.swipers,
+        fieldData: data.fields,
+        courseData: data.courses,
+        recomCourseData: data.recomCourses
+      })
+      console.log(this.state)
+    })
+  }
+
+  componentDidMount () {
+    this.getCourseDatas()
+  }
+
   render() {
 
     const { navigation } = this.props
+    const { swiperData } = this.state
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>HomePage Screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('DetailPage')}
+      <ScrollView
+        automaticallyAdjustContentInsets={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <IndexSwiper
+          swiperData={swiperData}
+          navigation={navigation}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

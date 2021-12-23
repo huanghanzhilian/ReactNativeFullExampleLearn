@@ -11,9 +11,7 @@ function filterFieldData (courseData, field, doSlice) {
 }
 
 function directToPage (navigation, pageName, params) {
-  return function () {
-    navigation.navigate(pageName, params)
-  }
+  navigation.navigate(pageName, params)
 }
 
 export {

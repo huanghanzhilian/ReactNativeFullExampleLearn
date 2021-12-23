@@ -4,7 +4,7 @@ import {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 106,
+    width: 142,
     height: 44
   }
 })
