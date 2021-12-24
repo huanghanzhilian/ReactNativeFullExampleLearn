@@ -11,6 +11,7 @@ import {
 
 import IndexModel from '../models/Index'
 import IndexSwiper from '../components/IndexSwiper'
+import MainTitle from '../components/MainTitle'
 
 
 const indexModel = new IndexModel()
@@ -41,6 +42,14 @@ class HomePage extends Component {
     })
   }
 
+  renderMainTitle (data, title) {
+    if (data) {
+      return <MainTitle title={ data.field_name } />
+    }
+
+    return <MainTitle title={ title } />
+  }
+
   componentDidMount () {
     this.getCourseDatas()
   }
@@ -48,7 +57,7 @@ class HomePage extends Component {
   render() {
 
     const { navigation } = this.props
-    const { swiperData } = this.state
+    const { swiperData, fieldData } = this.state
 
     return (
       <ScrollView
@@ -59,6 +68,14 @@ class HomePage extends Component {
           swiperData={swiperData}
           navigation={navigation}
         />
+        <MainTitle
+          title={'推荐课程'}
+        />
+        <MainTitle
+          title={ fieldData[0] && fieldData[0].field_name }
+        />
+        { this.renderMainTitle(null, '推荐课程') }
+        { this.renderMainTitle(fieldData[1]) }
       </ScrollView>
     );
   }
