@@ -12,7 +12,7 @@ import {
 import IndexModel from '../models/Index'
 import IndexSwiper from '../components/IndexSwiper'
 import MainTitle from '../components/MainTitle'
-
+import RecomCourseList from '../components/RecomCourseLise'
 
 const indexModel = new IndexModel()
 
@@ -57,19 +57,23 @@ class HomePage extends Component {
   render() {
 
     const { navigation } = this.props
-    const { swiperData, fieldData } = this.state
+    const { swiperData, fieldData, recomCourseData } = this.state
 
     return (
       <ScrollView
-        automaticallyAdjustContentInsets={false}
-        showsVerticalScrollIndicator={false}
+        automaticallyAdjustContentInsets={ false }
+        showsVerticalScrollIndicator={ false }
       >
         <IndexSwiper
-          swiperData={swiperData}
-          navigation={navigation}
+          swiperData={ swiperData }
+          navigation={ navigation }
         />
         <MainTitle
           title={'推荐课程'}
+        />
+        <RecomCourseList
+          recomCourseData={ recomCourseData }
+          navigation={ navigation }
         />
         <MainTitle
           title={ fieldData[0] && fieldData[0].field_name }
