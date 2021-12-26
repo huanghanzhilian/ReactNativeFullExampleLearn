@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
   imgView: {
     width: screenSize.width / 2 - 15,
-    height: (screenSize.width / 2 - 20) * 1080 /1920
+    height: (screenSize.width / 2 - 20) * 1080 / 1920
   },
 
   courseName: {
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
 
   teacherName: {
-    sontSize: 12,
+    fontSize: 12,
     color: '#666'
   },
 

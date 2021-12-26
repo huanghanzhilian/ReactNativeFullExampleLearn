@@ -9,10 +9,13 @@ import {
   ScrollView
 } from 'react-native';
 
+import { filterFieldData } from '../utils/extension'
+
 import IndexModel from '../models/Index'
 import IndexSwiper from '../components/IndexSwiper'
 import MainTitle from '../components/MainTitle'
-import RecomCourseList from '../components/RecomCourseLise'
+import RecomCourseList from '../components/RecomCourseList'
+import CourseList from '../components/CourseList'
 
 const indexModel = new IndexModel()
 
@@ -57,7 +60,7 @@ class HomePage extends Component {
   render() {
 
     const { navigation } = this.props
-    const { swiperData, fieldData, recomCourseData } = this.state
+    const { swiperData, fieldData, recomCourseData, courseData } = this.state
 
     return (
       <ScrollView
@@ -75,11 +78,31 @@ class HomePage extends Component {
           recomCourseData={ recomCourseData }
           navigation={ navigation }
         />
-        <MainTitle
-          title={ fieldData[0] && fieldData[0].field_name }
+
+        { this.renderMainTitle(fieldData[0]) }
+        <CourseList
+          courseData={ filterFieldData(courseData, '0', true) }
+          navigation={ navigation }
         />
-        { this.renderMainTitle(null, '推荐课程') }
+
         { this.renderMainTitle(fieldData[1]) }
+        <CourseList
+          courseData={ filterFieldData(courseData, '1', true) }
+          navigation={ navigation }
+        />
+
+        { this.renderMainTitle(fieldData[2]) }
+        <CourseList
+          courseData={ filterFieldData(courseData, '2', true) }
+          navigation={ navigation }
+        />
+
+        { this.renderMainTitle(fieldData[3]) }
+        <CourseList
+          courseData={ filterFieldData(courseData, '3', true) }
+          navigation={ navigation }
+        />
+
       </ScrollView>
     );
   }
