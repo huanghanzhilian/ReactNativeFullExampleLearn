@@ -1,16 +1,16 @@
-'use strict';
-
 import React, { Component } from 'react';
 
 import {
   StyleSheet,
   View,
-  Text
+  Text,
+  ScrollView
 } from 'react-native';
 
 import ListModel from '../models/List'
 
 import ListTab from '../components/ListTab'
+import CourseList from '../components/CourseList'
 
 import commonStyles from '../styles/commonStyles'
 
@@ -23,6 +23,7 @@ class ListPage extends Component {
 
     this.state = {
       fieldData: [],
+      courseData: {},
       curIdx: 0,
       curField: 'all'
     }
@@ -35,15 +36,16 @@ class ListPage extends Component {
       this.setState({
         fieldData: [{ field: 'all', field_name: '全部课程' }].concat(data)
       })
-      console.log(this.state.fieldData)
     })
   }
 
   getCourses (field) {
     listModel.getCourses(field).then(res => {
-      const data = res.result
-
-      console.log(data)
+      this.state.courseData[field] = res.result
+      this.setState({
+        courseData: this.state.courseData
+      })
+      console.log(this.state.courseData)
     })
   }
 
@@ -51,17 +53,24 @@ class ListPage extends Component {
     this.setState({
       curField: field,
       curIdx: index
+    }, () => {
+      const { courseData, curField } = this.state
+      !courseData[curField] && this.getCourses(curField)
     })
   }
 
   componentDidMount () {
     this.getCourseFields()
-    this.getCourses('1')
+    this.getCourses(this.state.curField)
   }
 
   render() {
 
-    const { fieldData, curIdx } = this.state
+    const { fieldData,
+            courseData,
+            curField,
+            curIdx } = this.state
+    const { navigation } = this.props
 
     return (
       <View style={ commonStyles.container }>
@@ -70,6 +79,19 @@ class ListPage extends Component {
           onTabClick={ this.onTabClick.bind(this) }
           curIdx={ curIdx }
         />
+
+        <ScrollView
+          showsVerticalScrollIndicator={ false }
+        >
+          {
+            courseData[curField]
+            &&
+            <CourseList
+              courseData={ courseData[curField] }
+              navigation= { navigation }
+            />
+          }
+        </ScrollView>
       </View>
     );
   }
