@@ -10,6 +10,10 @@ import {
 
 import ListModel from '../models/List'
 
+import ListTab from '../components/ListTab'
+
+import commonStyles from '../styles/commonStyles'
+
 const listModel = new ListModel()
 
 class ListPage extends Component {
@@ -18,7 +22,9 @@ class ListPage extends Component {
     super(props)
 
     this.state = {
-      fieldData: []
+      fieldData: [],
+      curIdx: 0,
+      curField: 'all'
     }
   }
 
@@ -41,15 +47,29 @@ class ListPage extends Component {
     })
   }
 
+  onTabClick (field, index) {
+    this.setState({
+      curField: field,
+      curIdx: index
+    })
+  }
+
   componentDidMount () {
     this.getCourseFields()
     this.getCourses('1')
   }
 
   render() {
+
+    const { fieldData, curIdx } = this.state
+
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>ListPage Screen</Text>
+      <View style={ commonStyles.container }>
+        <ListTab
+          fieldData={ fieldData }
+          onTabClick={ this.onTabClick.bind(this) }
+          curIdx={ curIdx }
+        />
       </View>
     );
   }
