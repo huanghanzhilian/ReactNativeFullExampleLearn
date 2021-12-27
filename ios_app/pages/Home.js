@@ -6,7 +6,8 @@ import {
   StyleSheet,
   View,
   Button,
-  ScrollView
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 
 import { filterFieldData } from '../utils/extension'
@@ -28,7 +29,9 @@ class HomePage extends Component {
       swiperData: [],
       fieldData: [],
       courseData: [],
-      recomCourseData: []
+      recomCourseData: [],
+
+      isRefreshing: false
     }
   }
 
@@ -40,8 +43,14 @@ class HomePage extends Component {
         fieldData: data.fields,
         courseData: data.courses,
         recomCourseData: data.recomCourses
+      }, () => {
+        console.log(this.state)
+        if (this.state.isRefreshing) {
+          this.setState({
+            isRefreshing: false
+          })
+        }
       })
-      console.log(this.state)
     })
   }
 
@@ -53,6 +62,33 @@ class HomePage extends Component {
     return <MainTitle title={ title } />
   }
 
+  onPageRefresh () {
+    if (this.state.isFreshing) return
+
+    this.setState({
+      isRefreshing: true
+    })
+
+    this.getCourseDatas()
+  }
+
+  renderRefreshControl (options) {
+    const { isRefreshing,
+            onPageRefresh,
+            title,
+            titleColor,
+            tintColor } = options
+    return (
+      <RefreshControl
+        refreshing={ isRefreshing }
+        onRefresh={ onPageRefresh.bind(this) }
+        tintColor={ tintColor }
+        title={ title }
+        titleColor={ titleColor }
+      />
+    )
+  }
+
   componentDidMount () {
     this.getCourseDatas()
   }
@@ -60,12 +96,21 @@ class HomePage extends Component {
   render() {
 
     const { navigation } = this.props
-    const { swiperData, fieldData, recomCourseData, courseData } = this.state
+    const { swiperData, fieldData, recomCourseData, courseData, isRefreshing } = this.state
 
     return (
       <ScrollView
         automaticallyAdjustContentInsets={ false }
         showsVerticalScrollIndicator={ false }
+        refreshControl={
+          this.renderRefreshControl({
+            isRefreshing,
+            onPageRefresh: this.onPageRefresh,
+            title: '正在加载中...',
+            titleColor: '#666',
+            tintColor: '#666'
+          })
+        }
       >
         <IndexSwiper
           swiperData={ swiperData }

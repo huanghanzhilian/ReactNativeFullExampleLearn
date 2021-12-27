@@ -16,13 +16,13 @@ class CourseItem extends Component {
 
     return (
       <TouchableWithoutFeedback
-        onPress={ () => directToPate(navigation, 'DetailPage', { courseId: data.id }) }
+        onPress={ () => directToPage(navigation, 'DetailPage', { courseId: data.id }) }
       >
         <View style={ [ styles.courseItem, index === 0 && styles.courseItemFirst ] }>
           <View style={ styles.imgView }>
             <Image
               style={ styles.imgView }
-              cource={{ url: data.img }}
+              source={{ url: data.img }}
             />
           </View>
           <View style={ styles.infoView }>
