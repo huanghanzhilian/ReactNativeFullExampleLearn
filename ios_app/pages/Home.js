@@ -31,26 +31,29 @@ class HomePage extends Component {
       courseData: [],
       recomCourseData: [],
 
-      isRefreshing: false
+      isRefreshing: true
     }
   }
 
   getCourseDatas () {
     indexModel.getCourseDatas().then(res => {
       const data = res.result
-      this.setState({
-        swiperData: data.swipers,
-        fieldData: data.fields,
-        courseData: data.courses,
-        recomCourseData: data.recomCourses
-      }, () => {
-        console.log(this.state)
-        if (this.state.isRefreshing) {
-          this.setState({
-            isRefreshing: false
-          })
-        }
-      })
+
+      setTimeout(() => {
+        this.setState({
+          swiperData: data.swipers,
+          fieldData: [{ 'field_name': '热门推荐', 'field': '' }].concat(data.fields),
+          courseData: data.courses,
+          recomCourseData: data.recomCourses
+        }, () => {
+          console.log(this.state)
+          if (this.state.isRefreshing) {
+            this.setState({
+              isRefreshing: false
+            })
+          }
+        })
+      }, 2000)
     })
   }
 
@@ -116,33 +119,32 @@ class HomePage extends Component {
           swiperData={ swiperData }
           navigation={ navigation }
         />
-        <MainTitle
-          title={'推荐课程'}
-        />
+
+        { this.renderMainTitle(fieldData[0]) }
         <RecomCourseList
           recomCourseData={ recomCourseData }
           navigation={ navigation }
         />
 
-        { this.renderMainTitle(fieldData[0]) }
+        { this.renderMainTitle(fieldData[1]) }
         <CourseList
           courseData={ filterFieldData(courseData, '0', true) }
           navigation={ navigation }
         />
 
-        { this.renderMainTitle(fieldData[1]) }
+        { this.renderMainTitle(fieldData[2]) }
         <CourseList
           courseData={ filterFieldData(courseData, '1', true) }
           navigation={ navigation }
         />
 
-        { this.renderMainTitle(fieldData[2]) }
+        { this.renderMainTitle(fieldData[3]) }
         <CourseList
           courseData={ filterFieldData(courseData, '2', true) }
           navigation={ navigation }
         />
 
-        { this.renderMainTitle(fieldData[3]) }
+        { this.renderMainTitle(fieldData[4]) }
         <CourseList
           courseData={ filterFieldData(courseData, '3', true) }
           navigation={ navigation }

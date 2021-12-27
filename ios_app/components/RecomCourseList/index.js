@@ -22,6 +22,7 @@ class RecomCouseList extends Component {
                 data={ item }
                 styles={ styles }
                 key={ index }
+                index={ index }
                 navigation={ navigation }
               />
             )

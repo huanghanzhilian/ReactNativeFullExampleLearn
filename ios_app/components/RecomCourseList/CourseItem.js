@@ -12,13 +12,13 @@ import { directToPage } from '../../utils/extension'
 class CourseItem extends Component {
   render() {
 
-    const { data, styles, navigation } = this.props
+    const { data, styles, navigation, index } = this.props
 
     return (
       <TouchableWithoutFeedback
         onPress={() => directToPage(navigation, 'DetailPage', { courseId: data.course_id }) }
       >
-        <View style={ styles.courseItem }>
+        <View style={ [styles.courseItem, !index && styles.courseItemFirst] }>
           <View style={ styles.imgView }>
             <Image
               style={ styles.imgView }

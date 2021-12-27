@@ -8,14 +8,21 @@ const styles = StyleSheet.create({
   recomCourseBoard: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: '#fff',
-    borderBottomColor: '#eee',
-    padding: 5
   },
 
   courseItem: {
-    width: screenSize.width / 2 - 5,
-    padding: 5
+    width: screenSize.width / 2,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    paddingLeft: 5,
+    backgroundColor: '#fff',
+    borderBottomColor: '#eee',
+  },
+
+  courseItemFirst: {
+    paddingRight: 5,
+    paddingLeft: 10,
   },
 
   imgView: {
