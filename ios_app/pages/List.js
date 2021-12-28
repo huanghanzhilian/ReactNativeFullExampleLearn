@@ -11,6 +11,7 @@ import ListModel from '../models/List'
 
 import ListTab from '../components/ListTab'
 import CourseList from '../components/CourseList'
+import MyRefreshControl from '../components/MyRefreshControl'
 
 import commonStyles from '../styles/commonStyles'
 
@@ -25,7 +26,8 @@ class ListPage extends Component {
       fieldData: [],
       courseData: {},
       curIdx: 0,
-      curField: 'all'
+      curField: 'all',
+      isRefreshing: false
     }
   }
 
@@ -59,6 +61,24 @@ class ListPage extends Component {
     })
   }
 
+  onPageRefresh () {
+    const { isRefreshing, curField } = this.state
+
+    if (isRefreshing) return
+
+    this.setState({
+      isRefreshing: true
+    }, () => {
+      this.getCourses(curField)
+    })
+
+    setTimeout(() => {
+      this.setState({
+        isRefreshing: false
+      })
+    }, 2000)
+  }
+
   componentDidMount () {
     this.getCourseFields()
     this.getCourses(this.state.curField)
@@ -69,7 +89,8 @@ class ListPage extends Component {
     const { fieldData,
             courseData,
             curField,
-            curIdx } = this.state
+            curIdx,
+            isRefreshing } = this.state
     const { navigation } = this.props
 
     return (
@@ -82,6 +103,12 @@ class ListPage extends Component {
 
         <ScrollView
           showsVerticalScrollIndicator={ false }
+          refreshControl={
+            <MyRefreshControl
+              isRefreshing={ isRefreshing }
+              onPageRefresh={ this.onPageRefresh.bind(this) }
+            />
+          }
         >
           {
             courseData[curField]

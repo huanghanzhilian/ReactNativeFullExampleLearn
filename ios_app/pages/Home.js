@@ -6,8 +6,7 @@ import {
   StyleSheet,
   View,
   Button,
-  ScrollView,
-  RefreshControl,
+  ScrollView
 } from 'react-native';
 
 import { filterFieldData } from '../utils/extension'
@@ -17,6 +16,7 @@ import IndexSwiper from '../components/IndexSwiper'
 import MainTitle from '../components/MainTitle'
 import RecomCourseList from '../components/RecomCourseList'
 import CourseList from '../components/CourseList'
+import MyRefreshControl from '../components/MyRefreshControl'
 
 const indexModel = new IndexModel()
 
@@ -39,21 +39,19 @@ class HomePage extends Component {
     indexModel.getCourseDatas().then(res => {
       const data = res.result
 
-      setTimeout(() => {
-        this.setState({
-          swiperData: data.swipers,
-          fieldData: [{ 'field_name': '热门推荐', 'field': '' }].concat(data.fields),
-          courseData: data.courses,
-          recomCourseData: data.recomCourses
-        }, () => {
-          console.log(this.state)
-          if (this.state.isRefreshing) {
-            this.setState({
-              isRefreshing: false
-            })
-          }
-        })
-      }, 2000)
+      this.setState({
+        swiperData: data.swipers,
+        fieldData: [{ 'field_name': '热门推荐', 'field': '' }].concat(data.fields),
+        courseData: data.courses,
+        recomCourseData: data.recomCourses
+      }, () => {
+        console.log(this.state)
+        if (this.state.isRefreshing) {
+          this.setState({
+            isRefreshing: false
+          })
+        }
+      })
     })
   }
 
@@ -75,23 +73,6 @@ class HomePage extends Component {
     this.getCourseDatas()
   }
 
-  renderRefreshControl (options) {
-    const { isRefreshing,
-            onPageRefresh,
-            title,
-            titleColor,
-            tintColor } = options
-    return (
-      <RefreshControl
-        refreshing={ isRefreshing }
-        onRefresh={ onPageRefresh.bind(this) }
-        tintColor={ tintColor }
-        title={ title }
-        titleColor={ titleColor }
-      />
-    )
-  }
-
   componentDidMount () {
     this.getCourseDatas()
   }
@@ -106,13 +87,10 @@ class HomePage extends Component {
         automaticallyAdjustContentInsets={ false }
         showsVerticalScrollIndicator={ false }
         refreshControl={
-          this.renderRefreshControl({
-            isRefreshing,
-            onPageRefresh: this.onPageRefresh,
-            title: '正在加载中...',
-            titleColor: '#666',
-            tintColor: '#666'
-          })
+          <MyRefreshControl
+            isRefreshing={ isRefreshing }
+            onPageRefresh={ this.onPageRefresh.bind(this) }
+          />
         }
       >
         <IndexSwiper
