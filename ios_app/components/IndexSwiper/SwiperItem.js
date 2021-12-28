@@ -5,9 +5,10 @@ import React, { Component } from 'react';
 import { directToPage } from '../../utils/extension'
 
 import {
-  Image,
   TouchableWithoutFeedback
 } from 'react-native';
+
+import AniImage from '../AniImage'
 
 class SwiperItem extends Component {
   render() {
@@ -24,9 +25,9 @@ class SwiperItem extends Component {
         style={styles.swiperSize}
         onPress={toDetailPage}
       >
-        <Image
-          style={ styles.swiperSize }
-          source={{ url: data.img }}
+        <AniImage
+          styles={ styles.swiperSize }
+          url={ data.img }
         />
       </TouchableWithoutFeedback>
     );

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import {
   View,
-  Image,
   Text,
   TouchableWithoutFeedback
 } from 'react-native';
 
+import AniImage from '../AniImage'
 import { directToPage } from '../../utils/extension'
 
 class CourseItem extends Component {
@@ -20,9 +20,9 @@ class CourseItem extends Component {
       >
         <View style={ [ styles.courseItem, index === 0 && styles.courseItemFirst ] }>
           <View style={ styles.imgView }>
-            <Image
-              style={ styles.imgView }
-              source={{ url: data.img }}
+            <AniImage
+              styles={ styles.imgView }
+              url={ data.img }
             />
           </View>
           <View style={ styles.infoView }>
