@@ -22,7 +22,8 @@ class AniImage extends Component {
         onLoadEnd={ () => {
           Animated.timing(this.animatedValue, {
             toValue: 100,
-            duration: 500
+            duration: 500,
+            useNativeDriver: false
           }).start()
         } }
         source={{ url }}

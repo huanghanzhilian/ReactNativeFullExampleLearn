@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
   Button,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 
 import { filterFieldData } from '../utils/extension'
@@ -45,7 +45,6 @@ class HomePage extends Component {
         courseData: data.courses,
         recomCourseData: data.recomCourses
       }, () => {
-        console.log(this.state)
         if (this.state.isRefreshing) {
           this.setState({
             isRefreshing: false

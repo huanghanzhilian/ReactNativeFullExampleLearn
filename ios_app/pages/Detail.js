@@ -1,26 +1,20 @@
-'use strict';
-
 import React, { Component } from 'react';
-
-import {
-  StyleSheet,
-  View,
-  Text
-} from 'react-native';
+import { WebView } from 'react-native-webview'
 
 class DetailPage extends Component {
   render() {
+
+    const { route } = this.props,
+          { courseId } = route.params
+
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>DetailPage Screen</Text>
-      </View>
+      <WebView
+        source={{ uri: 'https://ke.qq.com/course/' + courseId }}
+        startInLoadingState={ true }
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
 
-});
-
-
-export default DetailPage;
+export default DetailPage

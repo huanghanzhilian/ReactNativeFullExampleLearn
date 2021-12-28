@@ -44,4 +44,3 @@ class CourseItem extends Component {
 
 
 export default CourseItem
-
