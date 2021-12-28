@@ -12,6 +12,7 @@ import ListModel from '../models/List'
 import ListTab from '../components/ListTab'
 import CourseList from '../components/CourseList'
 import MyRefreshControl from '../components/MyRefreshControl'
+import PageLoading from '../components/PageLoading'
 
 import commonStyles from '../styles/commonStyles'
 
@@ -27,7 +28,8 @@ class ListPage extends Component {
       courseData: {},
       curIdx: 0,
       curField: 'all',
-      isRefreshing: false
+      isRefreshing: false,
+      pageLoadingShow: false
     }
   }
 
@@ -42,12 +44,17 @@ class ListPage extends Component {
   }
 
   getCourses (field) {
+    this.setState({
+      pageLoadingShow: true
+    })
     listModel.getCourses(field).then(res => {
       this.state.courseData[field] = res.result
-      this.setState({
-        courseData: this.state.courseData
-      })
-      console.log(this.state.courseData)
+      setTimeout(() => {
+        this.setState({
+          courseData: this.state.courseData,
+          pageLoadingShow: false
+        })
+      }, 1000)
     })
   }
 
@@ -90,7 +97,8 @@ class ListPage extends Component {
             courseData,
             curField,
             curIdx,
-            isRefreshing } = this.state
+            isRefreshing,
+            pageLoadingShow } = this.state
     const { navigation } = this.props
 
     return (
@@ -111,10 +119,12 @@ class ListPage extends Component {
           }
         >
           {
-            courseData[curField]
-            &&
+            pageLoadingShow
+            ?
+            <PageLoading />
+            :
             <CourseList
-              courseData={ courseData[curField] }
+              courseData={ courseData[curField] || [] }
               navigation= { navigation }
             />
           }
